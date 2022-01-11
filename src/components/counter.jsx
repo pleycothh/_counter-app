@@ -3,34 +3,29 @@ import App from '../App';
 
 class Counter extends Component {
     state = {
-        countOne:0,
-        countTwo:0,
+        value: this.props.value,
         tag: ['tag1', 'tag2']
     }; // object incldue any data
 
     styles = {
-        fontSize: 20,
+        fontSize: 50,
         fontWeight: 'bold'
     };
 
     render() { 
+        // js object from cunter object. every react has prop
         return (
             // element of virtural DOM which are Div, span, button. compare and modify the differetn element
-            <div>
-                <span style={ this.styles} className={this.getBadgeClasses()}>{this.formateCountOne()}</span>
-                <button 
-                onClick={() => this.handelIncrement({id:1})} 
-                className='btn btn-secondary btn-sm'
-                >Increment</button>
-                
-                <span style={ this.styles} className={this.getBadgeClasses()}>{this.formateCountTwo()}</span>
-                <button 
-                onClick={() => this.handelIncrement({id:2})} 
-                className='btn btn-secondary btn-sm'
-                >Increment</button>
-               
-            </div>
-
+                <div >
+                    
+                    <span style={ this.styles} className={this.getBadgeClasses()}>{this.formateCount()}</span>
+                    <button 
+                    
+                    onClick={() => this.handelIncrement(this.state)} 
+                    className='btn btn-secondary btn-sm'
+                    >+</button>
+    
+                </div>
             /**
              *   {this.state.tag.length === 0 && 'Please create a new tag'}
              *   { this.renderTags() }
@@ -55,10 +50,10 @@ class Counter extends Component {
 //    }
 
     handelIncrement = product => {    // use arrow function, inhertance this key word from super
-        console.log('Increment Clicked', product.id)
+        console.log('Increment Clicked', product)
         // this.state.count++    <= will not update the view, react not pass this value
-        if (product.id === 1) this.setState({ countOne: this.state.countOne + 1});
-        if (product.id === 2) this.setState({ countTwo: this.state.countTwo + 1});      
+
+        this.setState({ value: this.state.value + 1});
           // <= embed method from Component method, bring the DOM from virtural to isntance
           // <= get current state count and increase by one, set count property to this value
     }
@@ -70,21 +65,17 @@ class Counter extends Component {
 
     getBadgeClasses() {
         let classes = "badge m-2 bg-";
-        classes += (this.state.countOne === 0) ? "warning" : "primary";
+        classes += (this.state.value === 0) ? "warning" : "primary";
         return classes;
     }
 
-    formateCountOne(){ 
-        const { countOne } = this.state; // pick count propoty
+    formateCount(product){ 
+        const { value: count } = this.state; // pick count propoty
         const x = <h1>Zero</h1>;
-        return countOne === 0 ? x: countOne;
+        return count === 0 ? x: count;
     }
 
-    formateCountTwo(){ 
-        const { countTwo } = this.state; // pick count propoty
-        const x = <h1>Zero</h1>;
-        return countTwo === 0 ? x: countTwo;
-    }
+
 }
  
 export default Counter;
