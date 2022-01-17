@@ -2,10 +2,10 @@ import React, { Component } from 'react'; // imrc cc
 import App from '../App';
 
 class Counter extends Component {
-    state = {
-        value: this.props.value,
-        tag: ['tag1', 'tag2']
-    }; // object incldue any data
+ //   state = {
+ //       value: this.props.counter.value,
+ //       tag: ['tag1', 'tag2']
+ //   }; // object incldue any data
 
     styles = {
         fontSize: 50,
@@ -17,13 +17,17 @@ class Counter extends Component {
         return (
             // element of virtural DOM which are Div, span, button. compare and modify the differetn element
                 <div >
-                    
+                    {this.props.children}
                     <span style={ this.styles} className={this.getBadgeClasses()}>{this.formateCount()}</span>
-                    <button 
-                    
-                    onClick={() => this.handelIncrement(this.state)} 
+                    <button
+                    onClick={() => this.props.onIncrement(this.props.counter)} 
                     className='btn btn-secondary btn-sm'
                     >+</button>
+
+                    <button 
+                    onClick={() => this.props.onDelete(this.props.counter.id)}
+                    className="btn btn-danger btn-sm m-2"
+                    > Delete </button>
     
                 </div>
             /**
@@ -49,7 +53,9 @@ class Counter extends Component {
 //        this.handelIncrement({id:1});
 //    }
 
-    handelIncrement = product => {    // use arrow function, inhertance this key word from super
+    
+
+/*    handelIncrement = product => {    // use arrow function, inhertance this key word from super
         console.log('Increment Clicked', product)
         // this.state.count++    <= will not update the view, react not pass this value
 
@@ -57,20 +63,20 @@ class Counter extends Component {
           // <= embed method from Component method, bring the DOM from virtural to isntance
           // <= get current state count and increase by one, set count property to this value
     }
-
+*/
     renderTags(){
         if ( this.state.tag.length === 0) return <p>There are not tags!</p>;
-        return  <ul>{this.state.tag.map(tag => <li key={tag}>{tag}</li>)}</ul>
+        return  <ul>{this.state.tag.map(tag => <li id={tag}>{tag}</li>)}</ul>
     }
 
     getBadgeClasses() {
         let classes = "badge m-2 bg-";
-        classes += (this.state.value === 0) ? "warning" : "primary";
+        classes += (this.props.counter.value === 0) ? "warning" : "primary";
         return classes;
     }
 
     formateCount(product){ 
-        const { value: count } = this.state; // pick count propoty
+        const { value: count } = this.props.counter; // pick count propoty
         const x = <h1>Zero</h1>;
         return count === 0 ? x: count;
     }
